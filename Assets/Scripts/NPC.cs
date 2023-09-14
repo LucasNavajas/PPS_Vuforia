@@ -7,8 +7,11 @@ public class NPC : MonoBehaviour
 {
     public Transform ChatBackGround;
     public Transform NPCCharacter;
-
+    private bool isClicked = false;
     private DialogueSystem dialogueSystem;
+    public AudioClip sonidoAmbiental;
+    AudioSource sourceSonidoAmbiental;
+
 
     public string Name;
 
@@ -18,6 +21,7 @@ public class NPC : MonoBehaviour
     void Start()
     {
         dialogueSystem = FindObjectOfType<DialogueSystem>();
+        sourceSonidoAmbiental = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -34,13 +38,25 @@ public class NPC : MonoBehaviour
                 dialogueSystem.EnterRangeOfNPC();
                 dialogueSystem.Names = Name;
                 dialogueSystem.dialogueLines = sentences;
+                dialogueSystem.sourceSonidoAmbiental = sourceSonidoAmbiental;
+                dialogueSystem.sonidoAmbiental = sonidoAmbiental;
                 dialogueSystem.NPCName();
+                isClicked = true;
+
             }
         }
+        if (isClicked)
+        {
+            Vector3 Pos = Camera.main.WorldToScreenPoint(NPCCharacter.position);
+            Pos.y += 175;
+            ChatBackGround.position = Pos;
+        }
 
-        Vector3 Pos = Camera.main.WorldToScreenPoint(NPCCharacter.position);
-        Pos.y += 175;
-        ChatBackGround.position = Pos;
+
+    }
+    public void ResetIsClicked()
+    {
+        isClicked = false;
     }
 }
 

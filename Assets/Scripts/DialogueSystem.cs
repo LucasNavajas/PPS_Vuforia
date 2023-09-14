@@ -4,8 +4,8 @@ using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 
-public class DialogueSystem: MonoBehaviour {
-
+public class DialogueSystem : MonoBehaviour
+{
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI dialogueText;
 
@@ -15,6 +15,7 @@ public class DialogueSystem: MonoBehaviour {
     public float letterMultiplier = 0.5f;
 
     public KeyCode DialogueInput = KeyCode.F;
+    public List<NPC> npcList = new List<NPC>();
 
     public string Names;
 
@@ -24,25 +25,42 @@ public class DialogueSystem: MonoBehaviour {
     public bool dialogueActive = false;
     public bool dialogueEnded = false;
     public bool outOfRange = true;
+    public bool ambiental = false;
 
     public AudioClip audioClip;
     AudioSource audioSource;
 
+    public AudioClip sonidoAmbiental;
+    public AudioSource sourceSonidoAmbiental;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0.2f;
         dialogueText.text = "";
     }
 
     void Update()
     {
+        if (sonidoAmbiental && !ambiental)
+        {
+            // Asigna el clip de audio al AudioSource
+            sourceSonidoAmbiental.clip = sonidoAmbiental;
 
+            // Configura el AudioSource para que reproduzca en bucle
+            sourceSonidoAmbiental.loop = true;
+
+            // Inicia la reproducción del sonido ambiental
+            sourceSonidoAmbiental.Play();
+            ambiental = true;
+        }
     }
 
     public void EnterRangeOfNPC()
     {
         outOfRange = false;
     }
+
 
     public void NPCName()
     {
@@ -114,13 +132,13 @@ public class DialogueSystem: MonoBehaviour {
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        yield return new WaitForSeconds(letterDelay * letterMultiplier);
+                        yield return new WaitForSeconds(letterDelay * letterMultiplier * 0.3F);
 
                         if (audioClip) audioSource.PlayOneShot(audioClip, 0.5F);
                     }
                     else
                     {
-                        yield return new WaitForSeconds(letterDelay);
+                        yield return new WaitForSeconds(letterDelay * 0.3F);
 
                         if (audioClip) audioSource.PlayOneShot(audioClip, 0.5F);
                     }
@@ -146,8 +164,16 @@ public class DialogueSystem: MonoBehaviour {
     }
 
     public void DropDialogue()
-    {       
+    {
         dialogueBoxGUI.gameObject.SetActive(false);
+        sourceSonidoAmbiental.Stop();
+        ambiental = false;
+        sourceSonidoAmbiental = null;
+        sonidoAmbiental = null;
+        foreach (var npc in npcList)
+        {
+            npc.ResetIsClicked();
+        }
     }
 
     public void OutOfRange()
@@ -159,6 +185,15 @@ public class DialogueSystem: MonoBehaviour {
             dialogueActive = false;
             StopAllCoroutines();
             dialogueBoxGUI.gameObject.SetActive(false);
+            sourceSonidoAmbiental.Stop();
+            ambiental = false;
+            sourceSonidoAmbiental = null;
+            sonidoAmbiental = null;
+            foreach (var npc in npcList)
+            {
+                npc.ResetIsClicked();
+            }
         }
     }
 }
+

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class botonCentrar : MonoBehaviour
 {
-     public Transform modelo;
+    public Transform modelo;
+    public Transform dialogo;
 
     public void RotarEnXPositivo()
     {
@@ -82,6 +83,7 @@ public class botonCentrar : MonoBehaviour
         {
             // Aumenta la escala en 0.1 unidades en todos los ejes.
             modelo.localScale += new Vector3(0.1f, 0.1f, 0.1f);
+            dialogo.localScale += new Vector3(0.1f, 0.1f, 0.1f);
         }
         else
         {
@@ -95,6 +97,7 @@ public class botonCentrar : MonoBehaviour
         {
             // Disminuye la escala en 0.1 unidades en todos los ejes.
             modelo.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
+            dialogo.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
         }
         else
         {
