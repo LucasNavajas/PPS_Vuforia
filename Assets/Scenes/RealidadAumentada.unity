@@ -284,6 +284,10 @@ MonoBehaviour:
   ChatBackGround: {fileID: 2126422695}
   NPCCharacter: {fileID: 76547907}
   sonidoAmbiental: {fileID: 8300000, guid: 3354f82344c6fa14cafa8600dcfd1026, type: 3}
+  npcList:
+  - {fileID: 76547911}
+  - {fileID: 814590165}
+  - {fileID: 1900294684}
   Name: "Precipitaci\xF3n de Lluvia"
   sentences:
   - "Cuando las nubes se vuelven lo suficientemente pesadas y densas, las gotas de
@@ -925,8 +929,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -20, y: 47}
-  m_SizeDelta: {x: 400, y: 50}
+  m_AnchoredPosition: {x: 2, y: 10}
+  m_SizeDelta: {x: 550, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &729948204
 MonoBehaviour:
@@ -976,7 +980,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 35.8
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1060,8 +1064,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -25, y: 114}
-  m_SizeDelta: {x: 400, y: 50}
+  m_AnchoredPosition: {x: -15, y: 148}
+  m_SizeDelta: {x: 500, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &767577180
 MonoBehaviour:
@@ -1110,7 +1114,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40.1
+  m_fontSize: 44.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1182,6 +1186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76adaf6de8edcef4b8cd22bbde45c5a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogo: {fileID: 2126422695}
 --- !u!1 &814590163 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6145797906216101145, guid: a864a89703fa61d4787580c0648e87fc, type: 3}
@@ -1207,6 +1212,10 @@ MonoBehaviour:
   ChatBackGround: {fileID: 2126422695}
   NPCCharacter: {fileID: 814590164}
   sonidoAmbiental: {fileID: 8300000, guid: c00637ce15ab6d14fade220396982bff, type: 3}
+  npcList:
+  - {fileID: 76547911}
+  - {fileID: 814590165}
+  - {fileID: 1900294684}
   Name: "Precipitaci\xF3n de Nieve"
   sentences:
   - "Esto ocurre cuando el vapor de agua se enfr\xEDa lo suficiente en la atm\xF3sfera
@@ -3229,6 +3238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameText: {fileID: 767577180}
   dialogueText: {fileID: 729948204}
+  numeroPag: {fileID: 2073693464}
   dialogueBoxGUI: {fileID: 1478243958}
   letterDelay: 0.1
   letterMultiplier: 0.5
@@ -3978,7 +3988,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 460, y: -30}
+  m_AnchoredPosition: {x: 546, y: -55}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1882193728
@@ -4236,15 +4246,18 @@ MonoBehaviour:
   ChatBackGround: {fileID: 2126422695}
   NPCCharacter: {fileID: 1900294680}
   sonidoAmbiental: {fileID: 8300000, guid: df65004c027878848bd93cbc9df3d1d5, type: 3}
+  npcList:
+  - {fileID: 76547911}
+  - {fileID: 814590165}
+  - {fileID: 1900294684}
   Name: "Filtraci\xF3n y Evaporaci\xF3n"
   sentences:
   - "La precipitaci\xF3n que llega a la superficie de la Tierra fluye a trav\xE9s
     de r\xEDos y arroyos, o se infiltra en el suelo para recargar las reservas de
     agua subterr\xE1nea."
   - "El calor del sol hace que el agua de la superficie de la Tierra, como los oc\xE9anos,
-    los r\xEDos y los lagos, se convierta en vapor de agua en la atm\xF3sfera. Este
-    proceso es como el agua se eleva desde la Tierra hacia la atm\xF3sfera en forma
-    de vapor."
+    los r\xEDos y los lagos, se convierta en vapor de agua en la atm\xF3sfera. El
+    agua se eleva desde la Tierra hacia la atm\xF3sfera en forma de vapor."
 --- !u!1 &2032065216
 GameObject:
   m_ObjectHideFlags: 0
@@ -4543,7 +4556,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 180, y: -114}
+  m_AnchoredPosition: {x: 214, y: -170}
   m_SizeDelta: {x: 100, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2073693464
@@ -4566,7 +4579,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: (1/2)
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4593,7 +4606,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35.8
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4814,7 +4827,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 300}
+  m_SizeDelta: {x: 600, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2126422696
 MonoBehaviour:
@@ -4829,14 +4842,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.8862745}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 4ba85230de5086f4aac22a664d70ca30, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

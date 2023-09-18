@@ -8,6 +8,7 @@ public class DialogueSystem : MonoBehaviour
 {
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI dialogueText;
+    public TextMeshProUGUI numeroPag;
 
     public Transform dialogueBoxGUI;
 
@@ -33,17 +34,26 @@ public class DialogueSystem : MonoBehaviour
     public AudioClip sonidoAmbiental;
     public AudioSource sourceSonidoAmbiental;
 
+    private bool isMobile = false;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = 0.2f;
         dialogueText.text = "";
+
+        // Detectar si la plataforma es móvil
+        if (Application.isMobilePlatform)
+        {
+            isMobile = true;
+        }
     }
 
     void Update()
     {
         if (sonidoAmbiental && !ambiental)
         {
+            StopAllAudioSources();
             // Asigna el clip de audio al AudioSource
             sourceSonidoAmbiental.clip = sonidoAmbiental;
 
@@ -54,6 +64,64 @@ public class DialogueSystem : MonoBehaviour
             sourceSonidoAmbiental.Play();
             ambiental = true;
         }
+
+        if (isMobile)
+        {
+            HandleMobileInput();
+        }
+        else
+        {
+            HandlePCInput();
+        }
+    }
+    public void StopAllAudioSources()
+    {
+        AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
+
+        foreach (AudioSource audioSource in allAudioSources)
+        {
+            audioSource.Stop();
+        }
+    }
+    private void HandleMobileInput()
+    {
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                Ray ray = Camera.main.ScreenPointToRay(touch.position);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == gameObject)
+                {
+                    if (!dialogueActive)
+                    {
+                        dialogueActive = true;
+                        StartCoroutine(StartDialogue());
+                    }
+                }
+            }
+        }
+    }
+
+    private void HandlePCInput()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == gameObject)
+            {
+                if (!dialogueActive)
+                {
+                    dialogueActive = true;
+                    StartCoroutine(StartDialogue());
+                }
+            }
+        }
     }
 
     public void EnterRangeOfNPC()
@@ -61,21 +129,21 @@ public class DialogueSystem : MonoBehaviour
         outOfRange = false;
     }
 
-
     public void NPCName()
     {
         outOfRange = false;
         dialogueBoxGUI.gameObject.SetActive(true);
         nameText.text = Names;
-        if (Input.GetMouseButtonDown(0))
+
+        if (dialogueActive && !letterIsMultiplied)
         {
-            if (!dialogueActive)
-            {
-                dialogueActive = true;
-                StartCoroutine(StartDialogue());
-            }
+            StopAllCoroutines();
+            StartCoroutine(DisplayString(dialogueLines[0]));
         }
-        StartDialogue();
+        else if (!dialogueActive)
+        {
+            StartCoroutine(StartDialogue());
+        }
     }
 
     private IEnumerator StartDialogue()
@@ -91,10 +159,11 @@ public class DialogueSystem : MonoBehaviour
                 {
                     letterIsMultiplied = true;
                     StartCoroutine(DisplayString(dialogueLines[currentDialogueIndex++]));
-
+                    numeroPag.SetText("(" + currentDialogueIndex + "/" + dialogueLength + ")");
                     if (currentDialogueIndex >= dialogueLength)
                     {
                         dialogueEnded = true;
+                        numeroPag.SetText("(" + currentDialogueIndex + "/" + dialogueLength + ")");
                     }
                 }
                 yield return 0;
@@ -130,18 +199,10 @@ public class DialogueSystem : MonoBehaviour
 
                 if (currentCharacterIndex < stringLength)
                 {
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        yield return new WaitForSeconds(letterDelay * letterMultiplier * 0.3F);
+                    float delay = isMobile ? letterDelay * letterMultiplier * 0.3F : letterDelay * 0.3F;
+                    yield return new WaitForSeconds(delay);
 
-                        if (audioClip) audioSource.PlayOneShot(audioClip, 0.5F);
-                    }
-                    else
-                    {
-                        yield return new WaitForSeconds(letterDelay * 0.3F);
-
-                        if (audioClip) audioSource.PlayOneShot(audioClip, 0.5F);
-                    }
+                    if (audioClip) audioSource.PlayOneShot(audioClip, 0.5F);
                 }
                 else
                 {
@@ -151,7 +212,7 @@ public class DialogueSystem : MonoBehaviour
             }
             while (true)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (isMobile ? Input.touchCount > 0 : Input.GetMouseButtonDown(0))
                 {
                     break;
                 }
@@ -172,7 +233,13 @@ public class DialogueSystem : MonoBehaviour
         sonidoAmbiental = null;
         foreach (var npc in npcList)
         {
+            npc.gameObject.SetActive(true);
             npc.ResetIsClicked();
+            Collider npcCollider = npc.GetComponent<Collider>();
+            if (npcCollider != null)
+            {
+                npcCollider.enabled = true;
+            }
         }
     }
 
@@ -191,9 +258,16 @@ public class DialogueSystem : MonoBehaviour
             sonidoAmbiental = null;
             foreach (var npc in npcList)
             {
+                npc.gameObject.SetActive(true);
                 npc.ResetIsClicked();
+                Collider npcCollider = npc.GetComponent<Collider>();
+                if (npcCollider != null)
+                {
+                    npcCollider.enabled = true;
+                }
             }
         }
     }
 }
+
 
